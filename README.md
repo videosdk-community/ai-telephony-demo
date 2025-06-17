@@ -1,12 +1,31 @@
-# VideoSDK AI Telephony Agent
+<div align="left">
+
+# AI Telephony Agent
+
+<div align="left" style="margin:0px 12px;">
 
 Make INBOUND and OUTBOUND calls with AI agents using VideoSDK. Supports multiple SIP providers and AI agents with a clean, extensible architecture for VoIP telephony solutions.
+
+</div>
+<div align="center">
+
+![Architecture : Connecting Voice Agent to Telephony Agent](https://assets.videosdk.live/images/sip-telephony-agent.png)
+
+<a href="https://docs.videosdk.live/ai_agents/introduction" target="_blank"><img src="https://img.shields.io/badge/_Documentation-4285F4?style=for-the-badge" alt="Documentation"></a>
+<a href="https://www.youtube.com/playlist?list=PLrujdOR6BS_1fMqsHd9tynAg0foSRX5ti" target="_blank"><img src="https://img.shields.io/badge/_Tutorials-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Video Tutorials"></a>
+<a href="https://dub.sh/o59dJJB" target="_blank"><img src="https://img.shields.io/badge/_Get_Started-4285F4?style=for-the-badge" alt="Get Started"></a>
+<a href="https://discord.gg/f2WsNDN9S5" target="_blank"><img src="https://img.shields.io/badge/_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord Community"></a>
+<a href="https://pypi.org/project/videosdk-agents/" target="_blank"><img src="https://img.shields.io/badge/_pip_install-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="PyPI Package"></a>
+
+</div>
+
+</div>
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.21+
+- Python 3.11+
 - VideoSDK account
 - Twilio account (SIP trunking provider)
 - Google API key (for Gemini AI)
@@ -47,7 +66,7 @@ TWILIO_NUMBER=your_twilio_number
 4. **Run the server**
 
 ```bash
-python server_modular.py
+python server.py
 ```
 
 The server will start on `http://localhost:8000`
@@ -90,7 +109,7 @@ POST /configure-provider?provider_name=twilio
 
 Switch SIP providers at runtime (currently supports: `twilio`).
 
-## 🔌 Adding New SIP Providers
+## Adding New SIP Providers
 
 The modular architecture makes it easy to add new SIP providers and SIP trunking services. Here's how to add a new provider:
 
@@ -163,7 +182,7 @@ class Config:
         # ... rest of validation
 ```
 
-## 🤖 Adding New AI Agents
+## Adding New AI Agents
 
 Similarly, you can add new AI agents for intelligent call handling:
 
@@ -341,20 +360,5 @@ For additional SIP providers, add their specific environment variables to `confi
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ai-agent-telephony/issues)
-- **Documentation**: [Wiki](https://github.com/yourusername/ai-agent-telephony/wiki)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ai-agent-telephony/discussions)
-
-## Acknowledgments
-
-- [VideoSDK](https://videosdk.live/) for the real-time communication platform
-- [Twilio](https://www.twilio.com/) for SIP trunking capabilities
-- [Google Gemini](https://ai.google.dev/) for AI agent capabilities
-- [FastAPI](https://fastapi.tiangolo.com/) for the web framework
-
----
 
 **Made with ❤️ for the developer community**
