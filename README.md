@@ -9,7 +9,7 @@ Build a fully functional AI telephony agent using [VideoSDK Agent](https://githu
 </div>
 <div align="center">
 
-![Architecture : Connecting Voice Agent to Telephony Agent](https://strapi.videosdk.live/uploads/whatsapp_ai_agent_adf0519bcc.png)
+![Architecture : Connecting Voice Agent to Telephony Agent](https://strapi.videosdk.live/uploads/inbound_outbound_call_c70708607c.png)
 
 <div style="display:flex; margin: auto; justify-content: center; gap: 20px;">
 <a href="https://docs.videosdk.live/telephony/introduction" target="_blank"><img src="https://img.shields.io/badge/_Documentation-4285F4?style=for-the-badge" alt="Documentation"></a>
@@ -27,11 +27,9 @@ This simple structure is our final goal for the worker. By following along, you'
 
 ```
 worker/
-├── Dockerfile              # Instructions to build the Docker container
 ├── main.py                 # The core logic for your AI voice agent
 ├── requirements.txt        # Python package dependencies
-├── .env.example            # Environment variables
-└── videosdk.yaml           # VideoSDK configuration for deploying the agent
+└── .env.example            # Environment variables
 ```
 
 ## Prerequisites
@@ -39,7 +37,6 @@ worker/
 - Python 3.12 or newer
 - [VideoSDK Account](https://app.videosdk.live/api-keys) and [generate videosdk token ](https://docs.videosdk.live/ai_agents/authentication-and-token)
 - [Google API key](https://aistudio.google.com/app/apikey) (for Gemini model)
-- Docker (for containerization)
 
 ## Running the AI Agent Locally
 
@@ -88,75 +85,11 @@ Finally, run the agent:
 python main.py
 ```
 
-This will start your agent and connect it to a playground session, as defined by `playground=True` in the `make_context()` function in your code. You can now interact with it for initial testing before moving on to a full deployment.
+This will start your agent locally and register it with VideoSDK. You should see output confirming that your agent is running and registered with the agent_id "agent1".
 
-## Build and Test AI Phone Agent
+![Running AI Agent Locally](https://strapi.videosdk.live/uploads/run_local_agent_327c1b161c.gif)
 
-Before deploying our agent to the cloud, it's crucial to ensure it runs correctly on our local machine.
-In your terminal, in your root directory run following command:
-
-- Create a `deployment id` first and add to your `.yaml` file : Follow our [API Reference](https://docs.videosdk.live/api-reference/agent-cloud/create-deployment)
-
-```bash
-curl --request POST \
-  --url <https://api.videosdk.live/ai/v1/ai-deployments> \
-  --header 'Authorization: YOUR_VIDEOSDK_TOKEN' \
-  --header 'Content-Type: application/json' \
-  --data '{
-		"name" : "ai-deployment-name",
-		"description" : "This is a sample Deployment description."
-  }'
-```
-
-- NOTE: If you get a response `{"message":"Please Enable AI Worker Services"}` then make sure to choose [PAY AS YOU GO](https://app.videosdk.live/profile/billing?page=1&perPage=20&default_action=save-card) plan
-
-- Run AI Agent
-
-```bash
-videosdk run
-```
-
-This command reads your videosdk.yaml and Dockerfile, builds a local container, and starts your agent. You should see an output confirming that your worker is running.
-
-![docker container build preview](https://assets.videosdk.live/static-assets/ghost/2025/08/videosdk-run.png)
-
-## Deploy Your AI Phone Agent to the Cloud
-
-Once you've confirmed the agent works locally, it's time to deploy it to VideoSDK's global infrastructure.
-
-### 1. Configure the Deployment Manifest
-
-```yaml
-version: "1.0"
-deployment:
-  id: # your_deployment_id
-  entry:
-    path: main.py
-
-deploy:
-  cloud: true
-
-env:
-  path: "./.env"
-
-secrets:
-  VIDEOSDK_AUTH_TOKEN: # your_videosdk_token
-```
-
-### 2. Deploy with a Single Command
-
-Now for the magic. Run the `deploy` command:
-
-```python
-videosdk deploy
-```
-
-The CLI will now package your worker, build the container, and upload it to the VideoSDK cloud. You'll see a live log of the progress.
-Upon completion, you will get a Success! message along with your unique Worker ID.
-
-![Deployed videosdk agent](https://assets.videosdk.live/static-assets/ghost/2025/08/videosdk-deploy-.png)
-
-Crucial Step: Copy this Worker ID! You will need this unique identifier in the next step to connect your deployed agent to a phone number using a Routing Rule in the VideoSDK dashboard.
+**Important**: Keep this terminal running! Your agent needs to stay active to handle incoming calls.
 
 ## Connect Your AI Phone Agent to the Phone Network
 
@@ -180,11 +113,21 @@ Crucial Step: Copy this Worker ID! You will need this unique identifier in the n
 - Go to `Telephony` > `Routing Rules` and click **Add**.
 - Configure the rule:
   - **Gateway:** Choose the gateway you just created.
-  - **Agent Type:** Set to `Cloud`.
-  - **Deployment ID:** Paste the **Worker ID** from your `videosdk.yaml` file.
+  - **Agent Type:** Set to `Self Hosted`.
+  - **Agent ID:** Enter `agent1` (this matches the agent_id in your main.py file).
   - Click **Create** to link the gateway to your agent.
 
-![Routing Rules](https://assets.videosdk.live/static-assets/ghost/2025/08/sippart05-clip-1.gif)
+![Routing Rules](https://assets.videosdk.live/images/routing-rules.gif)
+
+## Making an Inbound Call
+
+Once your routing rule is configured, you can test your AI agent by making an inbound call:
+
+1. **Call your SIP provider number** (the number you configured in your Inbound Gateway)
+2. **Your AI agent will automatically answer** and start the conversation
+3. **The agent will greet you** with: "Hello! I'm your real-time AI avatar assistant. How can I help you today?"
+4. **You can have a conversation** with the AI agent using natural speech
+5. **The agent will respond** using the Gemini Live model with voice synthesis
 
 ## Making an Outbound Call
 
@@ -205,7 +148,7 @@ curl --request POST \
 
 ## Next Step
 
-That's it! You've successfully built a Python AI agent, deployed it to the cloud, and connected it to the global telephone network for both inbound and outbound calls.
+That's it! You've successfully built a Python AI agent, run it locally, and connected it to the global telephone network for both inbound and outbound calls. Simply make a call to your SIP provider number and your AI agent will handle the conversation!
 
 - [AI telephony agent Documentation](https://docs.videosdk.live/telephony/introduction)
 - [Open Source Agent SDK](https://github.com/videosdk-live/agents)
