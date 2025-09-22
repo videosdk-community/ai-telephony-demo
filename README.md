@@ -97,7 +97,8 @@ This will start your agent locally and register it with VideoSDK. You should see
 
 - In the [VideoSDK Dashboard ↗](https://app.videosdk.live/api-keys), go to `Telephony` > `Inbound Gateways` and click **Add**.
 - Name the gateway, add your phone number, and copy the generated **Inbound Gateway URL**.
-- In your SIP provider's dashboard (e.g., [Twilio ↗](https://console.twilio.com)), paste this URL into the **Origination SIP URI** field.
+- In your SIP provider's dashboard (e.g., [Twilio ↗](https://console.twilio.com)), Search for "Elastic SIP Trunk", click on it and create a new SIP Trunk, In Termination section, create "Termination SIP URI" and copy it.
+- Paste this URL into the **Origination SIP URI** field.
 
 ![Inbound Gateway](https://assets.videosdk.live/static-assets/ghost/2025/08/gif-inbound-gateway.gif)
 
@@ -105,6 +106,7 @@ This will start your agent locally and register it with VideoSDK. You should see
 
 - In VideoSDK, go to `Telephony` > `Outbound Gateways` and click **Add**.
 - Name the gateway and paste the **Termination SIP URI** from your SIP provider into the **Address** field.
+- Set `Transport` as `TLS` and turn on the `Media Encryption`.
 
 ![Outbound Gateway](https://assets.videosdk.live/static-assets/ghost/2025/08/outbound-gateway.gif)
 
