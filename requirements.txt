@@ -1,4 +1,4 @@
 videosdk-agents
 videosdk-plugins-google
-python-dotenv
 requests
+python-dotenv
