@@ -1,11 +1,10 @@
-import asyncio
 import traceback
-from videosdk.agents import Agent, AgentSession, RealTimePipeline, JobContext, RoomOptions, WorkerJob, Options
+from videosdk.agents import Agent, AgentSession, Pipeline, JobContext, RoomOptions, WorkerJob, Options
 from videosdk.plugins.google import GeminiRealtime, GeminiLiveConfig
 from dotenv import load_dotenv
 import os
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", handlers=[logging.StreamHandler()])
 load_dotenv()
 
 # Define the agent's behavior and personality
@@ -24,23 +23,17 @@ class MyVoiceAgent(Agent):
 async def start_session(context: JobContext):
     # Configure the Gemini model for real-time voice
     model = GeminiRealtime(
-        model="gemini-2.5-flash-native-audio-preview-12-2025",
+        model="gemini-3.1-flash-live-preview",
         api_key=os.getenv("GOOGLE_API_KEY"),
         config=GeminiLiveConfig(
             voice="Leda",
             response_modalities=["AUDIO"]
         )
     )
-    pipeline = RealTimePipeline(model=model)
+    pipeline = Pipeline(llm=model)
     session = AgentSession(agent=MyVoiceAgent(), pipeline=pipeline)
 
-    try:
-        await context.connect()
-        await session.start()
-        await asyncio.Event().wait()
-    finally:
-        await session.close()
-        await context.shutdown()
+    await session.start(wait_for_participant=True, run_until_shutdown=True)
 
 def make_context() -> JobContext:
     room_options = RoomOptions()
