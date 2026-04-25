@@ -1,4 +1,4 @@
-videosdk-agents>=1.0.0
-videosdk-plugins-google>=1.0.0
+videosdk-agents>=1.0.10
+videosdk-plugins-google>=1.0.10
 requests
 python-dotenv

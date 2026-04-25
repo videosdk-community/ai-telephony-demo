@@ -35,7 +35,7 @@ worker/
 ## Prerequisites
 
 - Python 3.12 or newer
-- [VideoSDK Account](https://app.videosdk.live/api-keys) and [generate videosdk token ](https://docs.videosdk.live/ai_agents/authentication-and-token)
+- [VideoSDK Account](https://app.videosdk.live/api-keys) with a `VIDEOSDK_API_KEY` and `VIDEOSDK_SECRET_KEY`
 - [Google API key](https://aistudio.google.com/app/apikey) (for Gemini model)
 
 ## Running the AI Agent Locally
@@ -45,11 +45,12 @@ worker/
 Create a `.env` file with your credentials from template `.env.example`:
 
 ```bash
-VIDEOSDK_TOKEN=your_videosdk_token_here
+VIDEOSDK_API_KEY=your_videosdk_api_key_here
+VIDEOSDK_SECRET_KEY=your_videosdk_secret_key_here
 GOOGLE_API_KEY=your_google_api_key_here
 ```
 
-**API Keys** - Get [GOOGLE API KEY ↗](https://aistudio.google.com/app/apikey), and sign up to [VideoSDK Dashboard ↗](https://app.videosdk.live/api-keys) to [generate videosdk token ](https://docs.videosdk.live/ai_agents/authentication-and-token)
+**API Keys** - Get [GOOGLE API KEY ↗](https://aistudio.google.com/app/apikey), and sign up to [VideoSDK Dashboard ↗](https://app.videosdk.live/api-keys) to grab your `VIDEOSDK_API_KEY` and `VIDEOSDK_SECRET_KEY`.
 
 ### 2. Create the environment
 
@@ -135,7 +136,7 @@ Once your routing rule is configured, you can test your AI agent by making an in
 
 To trigger an outbound call from your agent, you can make a simple API request to the VideoSDK SIP endpoint.
 
-Use a `POST` request with your `VIDEOSDK_TOKEN` for authorization. In the body, specify the `gatewayId` (from your Outbound Gateway) and the phone number to call in `sipCallTo`.
+Use a `POST` request with a VideoSDK JWT token (generated from your `VIDEOSDK_API_KEY` and `VIDEOSDK_SECRET_KEY`) for authorization. In the body, specify the `gatewayId` (from your Outbound Gateway) and the phone number to call in `sipCallTo`.
 
 ```bash
 curl --request POST \
